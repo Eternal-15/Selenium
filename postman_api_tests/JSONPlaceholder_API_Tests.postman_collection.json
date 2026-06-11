@@ -23,8 +23,8 @@
               "})",
               "",
               "pm.test('Response body is JSON', function () {",
-              "    pm.response.to.be.json;",
-              "})",
+              "    pm.expect(pm.response.headers.get('Content-Type')).to.include('application/json');",
+              "});",
               "",
               "pm.test('Response has the required fields: userId, id, title, body', function () {",
               "    var jsonData = pm.response.json();",
@@ -44,15 +44,13 @@
               "    pm.expect(jsonData.id).to.eql(1);",
               "})",
               "",
-              "pm.test('title is a string and is not empty', function () {",
-              "    var jsonData = pm.response.json();",
-              "    pm.expect(jsonData.title).to.be.a('string').and.to.not.be.empty;",
-              "})",
+              "pm.test(\"title matches expected value\", function () {",
+              "    pm.expect(pm.response.json().title).to.eql(\"sunt aut facere repellat provident occaecati excepturi optio reprehenderit\");",
+              "});",
               "",
-              "pm.test('body is a string and is not empty', function () {",
-              "    var jsonData = pm.response.json();",
-              "    pm.expect(jsonData.body).to.be.a('string').and.to.not.be.empty;",
-              "})",
+              "pm.test('body matches expected value', function () {",
+              "    pm.expect(pm.response.json().body).to.eql(\"quia et suscipit\\nsuscipit recusandae consequuntur expedita et cum\\nreprehenderit molestiae ut ut quas totam\\nnostrum rerum est autem sunt rem eveniet architecto\");",
+              "});",
               "",
               "// Visualization",
               "var template = `",
@@ -91,8 +89,12 @@
         {
           "listen": "prerequest",
           "script": {
+            "exec": [
+              ""
+            ],
+            "type": "text/javascript",
             "packages": {},
-            "type": "text/javascript"
+            "requests": {}
           }
         }
       ],
